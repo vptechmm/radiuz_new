@@ -1,0 +1,6 @@
+{
+  "name": "Liquid Glass Showcase",
+  "description": "A sleek, modern Simple ISP OSS/BSS landing page featuring high-contrast frosted cards, clean customer sliders, and structured product/operational features.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
