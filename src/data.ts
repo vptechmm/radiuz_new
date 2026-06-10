@@ -7,7 +7,6 @@ import triNetLogo from '../assets/companylogo/TriNet.png';
 import luxnexCrowntzLogo from '../assets/companylogo/LuxnexCTZ.png';
 import luxnexTachileikLogo from '../assets/companylogo/LuxnexTCL.png';
 import luxnexAirWalkerLogo from '../assets/companylogo/airwalker-logo.jpeg';
-import myanmarApnLogo from '../assets/companylogo/apn_blue.svg';
 
 export const navigationItems = [
   { label: 'Features', id: 'features', isPage: false },
@@ -24,7 +23,6 @@ export const logoCloud = [
   { name: 'Luxnex Crowntz', logoSrc: luxnexCrowntzLogo },
   { name: 'Luxnex Tachileik', logoSrc: luxnexTachileikLogo },
   { name: 'Luxnex Air Walker', logoSrc: luxnexAirWalkerLogo },
-  { name: 'Myanmar APN', logoSrc: myanmarApnLogo },
 ];
 
 export const featuresData: FeatureItem[] = [
