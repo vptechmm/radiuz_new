@@ -34,11 +34,13 @@ export default function Hero({ onContactClick }: HeroProps) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.1] text-center"
+            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight"
           >
-            Simple ISP{' '}
-            <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-indigo-600 to-purple-600">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-indigo-600 to-purple-600">
               OSS/BSS
+            </span>{' '}
+            <span className="relative inline-block text-slate-900">
+              for Modern ISPs
             </span>
           </motion.h1>
 
