@@ -9,6 +9,7 @@ import Pricing from './components/Pricing';
 import CTA from './components/CTA';
 import AboutUs from './components/AboutUs';
 import Footer from './components/Footer';
+import PrivacyPolicy from './components/PrivacyPolicy';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
@@ -22,6 +23,16 @@ export default function App() {
 
   const closeContactModal = useCallback(() => {
     setIsContactModalOpen(false);
+  }, []);
+
+  const openPrivacyPolicy = useCallback(() => {
+    setActiveTab('privacy');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const returnHome = useCallback(() => {
+    setActiveTab('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   useEffect(() => {
@@ -174,7 +185,7 @@ export default function App() {
               <Pricing onContactClick={openContactModal} />
               <CTA onContactClick={openContactModal} />
             </motion.div>
-          ) : (
+          ) : activeTab === 'about' ? (
             <motion.div
               id="about-page-view"
               key="about"
@@ -186,12 +197,14 @@ export default function App() {
               {/* ABOUT US & CONTACT MODULES */}
               <AboutUs onContactClick={openContactModal} />
             </motion.div>
+          ) : (
+            <PrivacyPolicy onBackToHome={returnHome} />
           )}
         </AnimatePresence>
       </main>
 
       {/* Modern polished Footer */}
-      <Footer />
+      <Footer onPrivacyPolicyClick={openPrivacyPolicy} />
 
       {isContactModalOpen && (
         <div
