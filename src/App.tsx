@@ -11,8 +11,15 @@ import AboutUs from './components/AboutUs';
 import Footer from './components/Footer';
 import PrivacyPolicy from './components/PrivacyPolicy';
 
+const PRIVACY_POLICY_PATH = '/privacy-policy';
+
+const isPrivacyPolicyRoute = () =>
+  window.location.pathname.replace(/\/+$/, '') === PRIVACY_POLICY_PATH;
+
 export default function App() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('home');
+  const [activeTab, setActiveTab] = useState<ActiveTab>(() =>
+    isPrivacyPolicyRoute() ? 'privacy' : 'home'
+  );
   const [activeSection, setActiveSection] = useState<string>('features');
   const [pendingScrollSection, setPendingScrollSection] = useState<string | null>(null);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -34,6 +41,26 @@ export default function App() {
     setActiveTab('home');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setActiveTab(isPrivacyPolicyRoute() ? 'privacy' : 'home');
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
+    const currentlyOnPrivacyRoute = isPrivacyPolicyRoute();
+
+    if (activeTab === 'privacy' && !currentlyOnPrivacyRoute) {
+      window.history.pushState({}, '', PRIVACY_POLICY_PATH);
+    } else if (activeTab !== 'privacy' && currentlyOnPrivacyRoute) {
+      window.history.pushState({}, '', '/');
+    }
+  }, [activeTab]);
 
   useEffect(() => {
     if (!isContactModalOpen) {
