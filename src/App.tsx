@@ -10,15 +10,22 @@ import CTA from './components/CTA';
 import AboutUs from './components/AboutUs';
 import Footer from './components/Footer';
 import PrivacyPolicy from './components/PrivacyPolicy';
+import CustomerPrivacyPolicy from './components/CustomerPrivacyPolicy';
 
-const PRIVACY_POLICY_PATH = '/privacy-policy';
+const ADMIN_PRIVACY_POLICY_PATH = '/privacy-policy';
+const CUSTOMER_PRIVACY_POLICY_PATH = '/customer-app/privacy-policy';
 
-const isPrivacyPolicyRoute = () =>
-  window.location.pathname.replace(/\/+$/, '') === PRIVACY_POLICY_PATH;
+const currentPath = () => window.location.pathname.replace(/\/+$/, '') || '/';
+
+const getActiveTabFromPath = (): ActiveTab => {
+  if (currentPath() === CUSTOMER_PRIVACY_POLICY_PATH) return 'customerPrivacy';
+  if (currentPath() === ADMIN_PRIVACY_POLICY_PATH) return 'privacy';
+  return 'home';
+};
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>(() =>
-    isPrivacyPolicyRoute() ? 'privacy' : 'home'
+    getActiveTabFromPath()
   );
   const [activeSection, setActiveSection] = useState<string>('features');
   const [pendingScrollSection, setPendingScrollSection] = useState<string | null>(null);
@@ -37,6 +44,11 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
+  const openCustomerPrivacyPolicy = useCallback(() => {
+    setActiveTab('customerPrivacy');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   const returnHome = useCallback(() => {
     setActiveTab('home');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -44,7 +56,7 @@ export default function App() {
 
   useEffect(() => {
     const handlePopState = () => {
-      setActiveTab(isPrivacyPolicyRoute() ? 'privacy' : 'home');
+      setActiveTab(getActiveTabFromPath());
       window.scrollTo({ top: 0, behavior: 'auto' });
     };
 
@@ -53,12 +65,14 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const currentlyOnPrivacyRoute = isPrivacyPolicyRoute();
+    const pathForTab = activeTab === 'privacy'
+      ? ADMIN_PRIVACY_POLICY_PATH
+      : activeTab === 'customerPrivacy'
+        ? CUSTOMER_PRIVACY_POLICY_PATH
+        : '/';
 
-    if (activeTab === 'privacy' && !currentlyOnPrivacyRoute) {
-      window.history.pushState({}, '', PRIVACY_POLICY_PATH);
-    } else if (activeTab !== 'privacy' && currentlyOnPrivacyRoute) {
-      window.history.pushState({}, '', '/');
+    if (currentPath() !== pathForTab) {
+      window.history.pushState({}, '', pathForTab);
     }
   }, [activeTab]);
 
@@ -224,14 +238,19 @@ export default function App() {
               {/* ABOUT US & CONTACT MODULES */}
               <AboutUs onContactClick={openContactModal} />
             </motion.div>
-          ) : (
+          ) : activeTab === 'privacy' ? (
             <PrivacyPolicy onBackToHome={returnHome} />
+          ) : (
+            <CustomerPrivacyPolicy onBackToHome={returnHome} />
           )}
         </AnimatePresence>
       </main>
 
       {/* Modern polished Footer */}
-      <Footer onPrivacyPolicyClick={openPrivacyPolicy} />
+      <Footer
+        onPrivacyPolicyClick={openPrivacyPolicy}
+        onCustomerPrivacyPolicyClick={openCustomerPrivacyPolicy}
+      />
 
       {isContactModalOpen && (
         <div

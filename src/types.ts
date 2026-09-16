@@ -1,4 +1,4 @@
-export type ActiveTab = 'home' | 'about' | 'privacy';
+export type ActiveTab = 'home' | 'about' | 'privacy' | 'customerPrivacy';
 
 export interface NavItem {
   label: string;

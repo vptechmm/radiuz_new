@@ -3,9 +3,10 @@ import { Facebook } from 'lucide-react';
 
 interface FooterProps {
   onPrivacyPolicyClick: () => void;
+  onCustomerPrivacyPolicyClick: () => void;
 }
 
-export default function Footer({ onPrivacyPolicyClick }: FooterProps) {
+export default function Footer({ onPrivacyPolicyClick, onCustomerPrivacyPolicyClick }: FooterProps) {
 
   return (
     <footer id="footer" className="relative border-t border-slate-200/80 bg-transparent pt-20 pb-12 px-6">
@@ -46,13 +47,22 @@ export default function Footer({ onPrivacyPolicyClick }: FooterProps) {
 
         {/* Bottom meta */}
         <div className="flex flex-col items-center gap-3 pt-8 text-center">
-          <button
-            type="button"
-            onClick={onPrivacyPolicyClick}
-            className="text-xs font-semibold text-slate-500 transition-colors hover:text-[#1638F9] hover:underline"
-          >
-            Privacy Policy
-          </button>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-semibold text-slate-500">
+            <button
+              type="button"
+              onClick={onCustomerPrivacyPolicyClick}
+              className="transition-colors hover:text-[#1638F9] hover:underline"
+            >
+              Customer App Privacy Policy
+            </button>
+            <button
+              type="button"
+              onClick={onPrivacyPolicyClick}
+              className="transition-colors hover:text-[#1638F9] hover:underline"
+            >
+              Admin App Privacy Policy
+            </button>
+          </div>
           <p className="text-slate-400 text-xs font-normal">
             &copy; 2026 Radiuz Company Limited, All rights reserved
           </p>
